@@ -3,14 +3,15 @@ import './todo-item.scss'
 
 
 
-const TododItem = (props) => {
+const TodoItem = ({item,setActive,remItem}) => {
+    console.log(item.active)
     return (
        <div className="item_section">
-            <p>Lorem ipsum fartumdlkasmdaslkdmadefaree</p>
-            <button>Delete</button>
-            <div className="active_item"></div>
+            <p onClick={() => setActive(item.id)}>{item.desc}</p>
+            <button onClick={()=> remItem(item)}>Delete</button>
+            {item.active ? <div className="active_item"></div> : ''}
        </div>
     )
 }
 
-export default TododItem
+export default TodoItem

@@ -1,0 +1,17 @@
+.comment_item{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+
+    & > .ci_avatar {
+        width: 60px;
+        height: 60px;
+        background: red
+    };
+
+    & > .ci_description {
+        width: 350px;
+        padding: 0 15px;
+        word-break: break-word;
+    }
+}

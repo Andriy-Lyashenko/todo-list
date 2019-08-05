@@ -1,0 +1,10 @@
+.comment_list {
+    width: 500px;
+    height: 600px;
+    box-shadow: 0px 0px 2px 2px #a6a3a338;
+    overflow: scroll;
+
+    & > .c_container {
+        padding: 0 20px;
+    }
+}

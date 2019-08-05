@@ -4,17 +4,18 @@ import './todo-list.scss'
 import TodoItem from '../todoItem'
 
 
-const TodoList = (props) =>{
+const TodoList = ({todo,setActive,remItem,setItemValue,setItem,newItemValue}) =>{
+    console.log(newItemValue)
     return (
         <div className="todo_list">
            <div className="td_container">
               <h1>Items</h1>
               <div className="add_section">
-                <input type="text" />
-                <button>Add new</button>
+                <input onChange={(e)=> setItemValue(e.target.value)} type="text" value={newItemValue} />
+                <button onClick={()=> setItem()}>Add new</button>
               </div>
-              {[''].map(item => {
-                  return <TodoItem/>
+              {todo.map(item => {
+                  return <TodoItem remItem={remItem} setActive={setActive} item={item}/>
               })}
            </div>
         </div>
