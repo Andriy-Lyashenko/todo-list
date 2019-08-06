@@ -5,7 +5,7 @@ import TodoList from '../todo-list';
 import CommentList from '../comment-list';
 
 class MainContent extends React.Component {
-    
+
     state = {
         todo: [
             {desc: "Todo 1", id:1, comments: [{text: "Adadad",id: 1,avatar: 'red'},],active: false},
@@ -38,8 +38,8 @@ class MainContent extends React.Component {
     };
 
     remItem = todoItem => {
-        const newTodo =  [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1) ]
         const idx = [...this.state.todo].findIndex(item => item.id === todoItem.id);
+        const newTodo =  [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1) ]
         this.setState({todo: newTodo});
         localStorage.setItem('todo',JSON.stringify(newTodo))
     };
