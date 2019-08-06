@@ -1,0 +1,40 @@
+.item_section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    & > button {
+        width: 100px;
+        background: white;
+        border: 1px solid red;
+        border-radius: 4px;
+        color: red;
+        font-size: 16px;
+        cursor: pointer;
+    };
+
+    p {
+        word-break: break-word;
+        cursor: pointer;
+
+        & > .active_item {
+            background: red;
+            width: 4px;
+            height: 50px;
+            position: absolute;
+            left: -20px;
+            top: 0px;        
+        };
+
+        & > .quant_item {
+            height: 18px;
+            background: #21d1b1;
+            color: white;
+            padding: 6px 11px;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+    }
+}

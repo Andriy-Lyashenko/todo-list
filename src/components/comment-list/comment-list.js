@@ -1,9 +1,19 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import './comment-list.scss'
 
-import CommentItem from '../comment-item';
+import CommentItem from '../../components/comment-item/comment-item'
 
-const CommentList = ({todo,setCommentValue,setComment,newCommentValue,remComment}) => {
+const CommentList = (props) => {
+    const {
+        todo,
+        setCommentValue,
+        setComment,
+        newCommentValue,
+        remComment,
+        editComment,
+        focus
+    } = props;
+
     const comments = todo.some(item=> item.active) ? 
     todo.find(item=> item.active).comments : [];
 
@@ -12,25 +22,32 @@ const CommentList = ({todo,setCommentValue,setComment,newCommentValue,remComment
     const renderInput = activeCommentNum !== 0 ? 
     <div className="c_input">
         <input
+         autoFocus={false}
+         id='cl_i'
          placeholder="Enter text"
-         onKeyUp={e=> (e.ctrlKey && e.keyCode === 13) ? setComment(e.target.value) : null}
+         onKeyUp={e=> (e.ctrlKey && e.keyCode === 13) ? setComment() : null}
          value={newCommentValue}
          onChange={(e)=> setCommentValue(e.target.value)}
          type="text"/>
-        <button onClick={()=> setComment()}>Add</button>
-    </div> : ''
+        <button onClick={()=> setComment()}>{focus ? "Edit" : "Add"}</button>
+    </div> : '' ;
 
     return (
         <div className="comment_list">
             <div className="c_container">
                 <h1>{activeCommentNum === 0 ? 'Choose item to comment' : `Comment # ${activeCommentNum}`}</h1>
                 {comments.map(comment=>{
-                    return <CommentItem remComment={remComment} comment={comment}/>
+                    return <CommentItem
+                             key={comment.id}
+                             remComment={remComment}
+                             comment={comment}
+                             editComment={editComment}
+                            />
                 })}
                 {renderInput}
             </div>
         </div>
     )
-}
+};
 
 export default CommentList
