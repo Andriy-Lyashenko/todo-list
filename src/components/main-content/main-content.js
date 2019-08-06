@@ -11,19 +11,15 @@ class MainContent extends React.Component {
             {desc: "Todo 2", id:2, comments: [{text: "Adadad",id: 2,avatar: 'black'},{text: "Adadad",id: 2, avatar: 'red'}],active: true}
         ],
         newItemValue: '',
-        newCommentvalue: ''
+        newCommentValue: ''
     }
 
     componentDidMount(){
        if(localStorage.getItem('todo')){
         this.setState({
-            activeItem: [...this.state.todo].find(item => item.active === true ),
             todo: JSON.parse(localStorage.getItem("todo"))
         })
-       }else{
-           this.setState({activeItem: [...this.state.todo].find(item => item.active === true )})
        }
-
     };
 
     setActive = (id) => {
@@ -40,20 +36,9 @@ class MainContent extends React.Component {
 
     remItem = todoItem => {
         const idx = [...this.state.todo].findIndex(item => item.id === todoItem.id);
+        this.setState({todo: [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1) ]})
+        localStorage.setItem('todo',JSON.stringify( [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1)]))
 
-        if(todoItem.active){
-            const copyArr = [...this.state.todo]
-            if(!this.state.todo.idx === 0 && !this.state.todo.length === 1){
-                this.setState({todo:[]})
-            }else{
-                copyArr[0].active = true
-                this.setState({todo: [ ...copyArr.slice(0,idx), ...copyArr.slice(idx + 1) ]})
-            }
-            
-        }else {
-            this.setState({todo: [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1) ]})
-            localStorage.setItem('todo',JSON.stringify( [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1)]))
-        }
        
     }
 
@@ -76,11 +61,35 @@ class MainContent extends React.Component {
        }
     }
 
+    setComment = () =>{
+        if(this.state.newCommentValue.length > 0){
+            console.log("asda")
+            const newComment = {
+                text: this.state.newCommentValue,
+                id: new Date().getTime(),
+                avatar: ['red', 'green' , 'pink'][Math.floor(Math.random() * 3 )]
+            }
+
+            const copyArr = [...this.state.todo]
+            const idx = [...this.state.todo].findIndex(item=> item.active )
+            console.log(copyArr,idx)
+            copyArr[idx].comments.push(newComment)
+
+            this.setState({todo: copyArr,newCommentValue: ''})
+    
+        }
+    }
+
     setItemValue = (newItemValue) =>{
         this.setState({newItemValue})
     }
 
+    setCommentValue = (newCommentValue) => {
+        this.setState({newCommentValue})
+    }
+
     render(){
+        console.log(this.state.todo)
         return (
          <div className="m_container">
             <TodoList
@@ -89,8 +98,14 @@ class MainContent extends React.Component {
              remItem={this.remItem}
              setActive={this.setActive}
              todo={this.state.todo}
-             newItemValue={this.state.newItemValue}/>
-            <CommentList todo = {this.state.todo}/>
+             newItemValue={this.state.newItemValue}
+             />
+            <CommentList
+             setCommentValue={this.setCommentValue}
+             todo = {this.state.todo}
+             setComment ={this.setComment}
+             newCommentValue={this.state.newCommentValue}
+             />
          </div>
         )
     }
