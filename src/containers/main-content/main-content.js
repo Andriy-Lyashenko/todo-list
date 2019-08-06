@@ -34,7 +34,7 @@ class MainContent extends React.Component {
             }
             return item
         });
-        console.log(newTodo)
+
        this.setState({todo: newTodo})
        localStorage.setItem('todo',JSON.stringify(newTodo))
 
@@ -88,7 +88,6 @@ class MainContent extends React.Component {
             if(this.state.focus){
                 const commentIdx = copyArr[idx].comments.findIndex(item=> item.id === this.state.editCommentId)
                 copyArr[idx].comments[commentIdx].text = this.state.newCommentValue
-                console.log(copyArr[idx].comments)
             }else{
                 const newComment = {
                     id: new Date().getTime(),
