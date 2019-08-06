@@ -5,6 +5,7 @@ import TodoList from '../todo-list';
 import CommentList from '../comment-list';
 
 class MainContent extends React.Component {
+    
     state = {
         todo: [
             {desc: "Todo 1", id:1, comments: [{text: "Adadad",id: 1,avatar: 'red'},],active: false},
@@ -31,16 +32,27 @@ class MainContent extends React.Component {
             }
             return item
         });
-       this.setState({todo: newTodo,activeItem: [...this.state.todo].find(item => item.active === true )})
+       this.setState({todo: newTodo})
+       localStorage.setItem('todo',JSON.stringify(newTodo))
+
     };
 
     remItem = todoItem => {
+        const newTodo =  [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1) ]
         const idx = [...this.state.todo].findIndex(item => item.id === todoItem.id);
-        this.setState({todo: [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1) ]})
-        localStorage.setItem('todo',JSON.stringify( [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1)]))
+        this.setState({todo: newTodo});
+        localStorage.setItem('todo',JSON.stringify(newTodo))
+    };
 
-       
-    }
+    remComment = id => {
+        const todoCopy = [...this.state.todo]
+        const idxItem = todoCopy.findIndex(item=> item.active)
+        const idxComment = todoCopy[idxItem].comments.findIndex(item=> item.id === id)
+        todoCopy[idxItem].comments.splice(idxComment,1)
+
+        this.setState({todo: todoCopy});
+        localStorage.setItem('todo',JSON.stringify(todoCopy))
+    };
 
     setItem = () =>{
        if(this.state.newItemValue.length > 0){
@@ -51,45 +63,46 @@ class MainContent extends React.Component {
             id: new Date().getTime()
         }
         
-        this.setState({todo: [...this.state.todo.map(item =>{
+        this.setState({
+            todo: [...this.state.todo.map(item =>{
             item.active = false
             return item
-        }), newItem],newItemValue: ''})
-        localStorage.setItem('todo',JSON.stringify([...this.state.todo, newItem]))
-       }else{
+            }), newItem],
+            newItemValue: ''});
+
+        localStorage.setItem('todo',JSON.stringify([...this.state.todo, newItem]));
+
+       }else {
            alert("Please write value before add")
        }
     }
 
-    setComment = () =>{
+    setComment = value =>{
         if(this.state.newCommentValue.length > 0){
-            console.log("asda")
-            const newComment = {
-                text: this.state.newCommentValue,
-                id: new Date().getTime(),
-                avatar: ['red', 'green' , 'pink'][Math.floor(Math.random() * 3 )]
-            }
+        const copyArr = [...this.state.todo]
+        const idx = [...this.state.todo].findIndex(item=> item.active )
+        const newComment = {
+            id: new Date().getTime(),
+            avatar: ['red', 'green' , 'pink'][Math.floor(Math.random() * 3 )]
+        }
 
-            const copyArr = [...this.state.todo]
-            const idx = [...this.state.todo].findIndex(item=> item.active )
-            console.log(copyArr,idx)
-            copyArr[idx].comments.push(newComment)
+        value ? newComment.text = value : newComment.text = this.state.newCommentValue
+        copyArr[idx].comments.push(newComment)
+        this.setState({todo: copyArr,newCommentValue: ''})
+        localStorage.setItem('todo',JSON.stringify(copyArr))
 
-            this.setState({todo: copyArr,newCommentValue: ''})
-    
         }
     }
 
-    setItemValue = (newItemValue) =>{
+    setItemValue = newItemValue => {
         this.setState({newItemValue})
     }
 
-    setCommentValue = (newCommentValue) => {
+    setCommentValue = newCommentValue => {
         this.setState({newCommentValue})
     }
 
     render(){
-        console.log(this.state.todo)
         return (
          <div className="m_container">
             <TodoList
@@ -105,6 +118,7 @@ class MainContent extends React.Component {
              todo = {this.state.todo}
              setComment ={this.setComment}
              newCommentValue={this.state.newCommentValue}
+             remComment={this.remComment}
              />
          </div>
         )

@@ -1,7 +1,8 @@
-.comment_item{
+.comment_item {
     display: flex;
-    margin-top: 20px;
+    margin-top: 35px;
     justify-content: space-between;
+    position: relative;
 
     & > .ci_avatar {
         width: 60px;
@@ -13,5 +14,19 @@
         width: 350px;
         padding: 0 15px;
         word-break: break-word;
+    };
+
+    button {
+        position: absolute;
+        right: 2px;
+        top: -22px;
+        border: 1px solid #ff7c7c;
+        color: #ff7c7c;
+        background: none;
+        width: 65px;
+        font-size: 10px;
+        padding: 5px 0;
+        cursor: pointer;
+        border-radius: 3px;
     }
 }
