@@ -71,7 +71,10 @@ class MainContent extends React.Component {
             item.active = false
             return item
             }), newItem],
-            newItemValue: ''});
+            newItemValue: '',
+            newCommentValue: '',
+            focus: false
+        });
 
         localStorage.setItem('todo',JSON.stringify([...this.state.todo, newItem]));
 
