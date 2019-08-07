@@ -35,7 +35,7 @@ class MainContent extends React.Component {
             return item
         });
 
-       this.setState({todo: newTodo})
+       this.setState({todo: newTodo,focus: false, editComment: null, newCommentValue: ''})
        localStorage.setItem('todo',JSON.stringify(newTodo))
 
     };
