@@ -43,7 +43,7 @@ class MainContent extends React.Component {
     remItem = todoItem => {
         const idx = [...this.state.todo].findIndex(item => item.id === todoItem.id);
         const newTodo =  [ ...this.state.todo.slice(0,idx), ...this.state.todo.slice(idx + 1) ]
-        this.setState({todo: newTodo});
+        this.setState({todo: newTodo, newCommentValue: '',focus: false});
         localStorage.setItem('todo',JSON.stringify(newTodo))
     };
 
@@ -53,7 +53,7 @@ class MainContent extends React.Component {
         const idxComment = todoCopy[idxItem].comments.findIndex(item=> item.id === id)
         todoCopy[idxItem].comments.splice(idxComment,1)
 
-        this.setState({todo: todoCopy});
+        this.setState({todo: todoCopy, newCommentValue: '',focus: false});
         localStorage.setItem('todo',JSON.stringify(todoCopy))
     };
 
